@@ -1,43 +1,16 @@
-const router = require("express").Router();
-const fs = require("fs");
-const path = require("path");
+const cardsRouter = require("express").Router();
 
-router.get("/cards", (req, res) => {
-  return fs.readFile(
-    path.join(__dirname, "../data/cards.json"),
-    "utf8",
-    (err, data) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      const cards = JSON.parse(data);
-      res.send(cards);
-    }
-  );
-});
+const {
+  getCards,
+  createCard,
+  deleteCard,
+  likeCard,
+  dislikeCard,
+} = require("../controller/cards");
 
-router.get("/cards/:id", (req, res) => {
-  return fs.readFile(
-    path.join(__dirname, "../data/cards.json"),
-    "utf8",
-    (err, data) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      const cards = JSON.parse(data);
-      const card = cards.find((item) => item._id === req.params.id);
-
-      if (!card) {
-        res.status(404);
-        res.send({ message: "ID de card no encontrado" });
-        return;
-      }
-
-      res.send(card);
-    }
-  );
-});
-
-module.exports = router;
+cardsRouter.get("/cards", getCards);
+cardsRouter.post("/cards/", createCard);
+cardsRouter.delete("/cards/:cardId", deleteCard);
+cardsRouter.put("/cards/:cardId/likes", likeCard);
+cardsRouter.delete("/cards/:cardId/likes", dislikeCard);
+module.exports = cardsRouter;
