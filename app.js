@@ -6,7 +6,7 @@ const cardsRouter = require("./routes/cards");
 const { PORT = 3000 } = process.env;
 
 mongoose
-  .connect("mongodb://localhost:27017/around", {})
+  .connect("mongodb://localhost:27017/aroundb", {})
   .then(() => {
     console.log("Conectado a la base de datos");
   })
@@ -17,14 +17,14 @@ mongoose
 app.use(express.json());
 app.use((req, res, next) => {
   req.user = {
-    _id: "67db70ff31c4bd6fd07fb690",
+    _id: "67dcacd683140d331f6d8d83",
   };
 
   next();
 });
 
-app.use("/", usersRouter);
-app.use("/", cardsRouter);
+app.use("/users", usersRouter);
+app.use("/cards", cardsRouter);
 
 app.get("*", (req, res) => {
   res.status(404).send({ message: "Requested resource not found" });

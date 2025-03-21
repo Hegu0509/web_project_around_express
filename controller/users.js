@@ -17,7 +17,7 @@ module.exports.getUsers = async (req, res) => {
 };
 
 module.exports.getUserById = (req, res) => {
-  User.findById(req.user._id)
+  User.findById(req.params.userId)
     .orFail(() => {
       const error = new Error("Cannot find user");
       res.statusCode = 404;
